@@ -96,7 +96,7 @@ fi
 
 # check if skia is already cloned
 if [ ! -d skia ]; then
-	git clone https://github.com/aseprite/skia.git
+	git clone -b aseprite-m81 https://github.com/aseprite/skia.git
 fi
 
 # clear the dirty state of both repositories
@@ -123,8 +123,8 @@ export PATH="${PWD}/depot_tools:${PATH}"
 cd skia
 
 # get proper skia's branch to compile
-SKIA_BRANCH=$(curl "https://raw.githubusercontent.com/aseprite/aseprite/master/INSTALL.md" | grep "aseprite-m[0-9][0-9]" | sed -n '1p' | perl -n -e '/(aseprite-m\d\d)/ && print $1')
-git checkout $SKIA_BRANCH
+#SKIA_BRANCH=$(curl "https://raw.githubusercontent.com/aseprite/aseprite/master/INSTALL.md" | grep "aseprite-m[0-9][0-9]" | sed -n '1p' | perl -n -e '/(aseprite-m\d\d)/ && print $1')
+#git checkout $SKIA_BRANCH
 python tools/git-sync-deps
 gn gen out/Release --args="is_official_build=true skia_use_system_expat=false skia_use_system_icu=false skia_use_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_zlib=false skia_use_libwebp=false extra_cflags_cc=[\"-frtti\"]"
 ninja -C out/Release skia
